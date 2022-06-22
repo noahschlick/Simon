@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        PressStart2P: ["Press Start 2P", "cursive"]
+      }
+    },
   },
   plugins: [require('tw-elements/dist/plugin')],
 }
