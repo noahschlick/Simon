@@ -31,7 +31,7 @@ body {
   border-radius: 50%;
   margin: 20px;
   position: relative;
-  cursor: pointer;
+
   flex-shrink: 0;
 }
 
