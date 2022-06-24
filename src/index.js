@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
-import './PressStart2P-Regular.ttf'
+import './Font/PressStart2P-Regular.ttf'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
