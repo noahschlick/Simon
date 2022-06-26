@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dicebear/adventurer-neutral": "^4.10.3",
+    "@dicebear/avatars": "^4.10.3",
     "@heroicons/react": "^1.0.6",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -15,6 +17,7 @@
     "react-scripts": "5.0.1",
     "react-timeago": "^7.1.0",
     "recoil": "^0.7.3",
+    "recoil-persist": "^4.2.0",
     "tw-elements": "^1.0.0-alpha12",
     "web-vitals": "^2.1.4"
   },

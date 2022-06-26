@@ -20,9 +20,6 @@ function Header() {
 
         </div>
 
-  
-    
-
         <div className="flex items-center space-x-4 justify-end text-gray-500">
             {/* Drop Down */}
             <div class="flex ">
