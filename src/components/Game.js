@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useState } from "react"
 import { motion, AnimateSharedLayout } from "framer-motion"
 import "./Game.css"
@@ -20,7 +20,7 @@ import sound_6 from '../AudioFiles/sound-6.mp3'
 import sound_7 from '../AudioFiles/sound-7.mp3'
 import sound_8 from '../AudioFiles/sound-8.mp3'
 import sound_9 from '../AudioFiles/sound-9.mp3'
-import { scoreStateSm, scoreStateMd, scoreStateLg } from '../Atoms/ScoreBoardAtom'
+import { scoreState } from '../Atoms/ScoreBoardAtom'
 
 
 
@@ -32,10 +32,8 @@ export default function Game() {
   const [waiting, setWaiting] = useState(true)
   const [volume, setVolume] = useRecoilState(volumeState)
 
-  const [scoreSm, setScore] = useRecoilState(scoreStateSm)
-  const [scoreMd, setScoreMd] = useRecoilState(scoreStateMd)
-  const [scoreLg, setScoreLg] = useRecoilState(scoreStateLg)
-
+  const [score, setScore] = useRecoilState(scoreState)
+ 
   const lost = useRef(false)
   const seq = useRef(false)
   const index = useRef(0)
@@ -51,6 +49,13 @@ export default function Game() {
   const audio_7 = new Audio ( sound_7 );
   const audio_8 = new Audio ( sound_8 );
   const audio_9 = new Audio ( sound_9 );
+
+  useEffect(() => {
+    console.log("Update info: ", colors)
+    setWaiting(true)
+    setOrder([colors[0]])
+    setSelected("")
+  }, [colors])
 
   /**
    * Add Random Number
@@ -186,13 +191,9 @@ export default function Game() {
         setTimeout(function() {
           setSelected("")
         }, 800);
-
         setTimeout(function() {
           runSequence()
         }, 1000);
-        
-        
-        
       } else {
         console.log("We still have a chance to win!!")
         index.current += 1
@@ -202,27 +203,47 @@ export default function Game() {
       lost.current = true
       index.current = 0
       size.current = order.length - 1
+      if (colors.length === 4){
+        var object = addMoreItems(0, order.length - 1)
+        console.log(object)
+        setScore(object)
+
+      } else if (colors.length === 6) {
+        var object = addMoreItems(1, order.length - 1)
+        console.log(object)
+        setScore(object)
+
+      } else {
+        var object = addMoreItems(2, order.length - 1)
+        console.log(object)
+        setScore(object)
+
+      }
       setWaiting(true)
       setOrder([colors[0]])
       setSelected("")
+ 
       
-      // Update the score board
-      var currDate = new Date()
-      if (color.length === 4){
-        scoreSm.enqueue([currDate, size])
-      } else if (color.length === 6) {
-        scoreMd.enqueue([currDate, size])
-      } else {
-        scoreLg.enqueue([currDate, size])
-      }
 
-      scoreSm.enqueue([currDate, size])
-      console.log("This is the score ")
-      scoreSm.printCollection()
-      //pq.enqueue([currDate, size])
 
     }
    
+  }
+
+  const addMoreItems = (currIndex, size) => {
+    var currDate = new Date()
+    var object = [[], [], []]
+       
+    for (var j = 0; j < score.length; j++) {
+      var tmp = [];
+      for (var i = 0; i < score[j].length; i++){
+        tmp[i] = score[j][i]
+      }
+      object[j] = tmp
+    }
+    object[currIndex].push([currDate, size])
+
+    return object
   }
   
 
