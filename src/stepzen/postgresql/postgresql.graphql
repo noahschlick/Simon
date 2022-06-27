@@ -22,7 +22,7 @@ type Query {
   @dbquery(
       type: "postgresql"
       query: """
-        select * from "public"."LeaderBoard" where "gameSize" = $1 ORDER BY "score" DESC LIMIT 5
+        select * from "public"."LeaderBoard" where "gameSize" = $1 ORDER BY "score" DESC LIMIT 10
       """
       configuration: "postgresql_config"
       
