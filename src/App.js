@@ -15,7 +15,10 @@ function App() {
       <Game/>
       <div className="flex space-x-4 mt-5">
         <ScoreBoard/>
-        <LeaderBoard/>
+        <div className="w-1/2">
+          <LeaderBoard/>
+        </div>
+        
       </div>
 
     </div>
