@@ -1,0 +1,102 @@
+type LeaderBoard {
+  created_at: DateTime
+  gameSize: ID
+  id: ID!
+  playerName: String
+  score: Int!
+}
+
+type Query {
+  """
+  Gets the leader board list
+  """
+  getLeaderBoardList: [LeaderBoard]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "LeaderBoard"
+      configuration: "postgresql_config"
+    )
+
+  getLeaderBoardListByGame(gameSize: Int!): [LeaderBoard]
+  @dbquery(
+      type: "postgresql"
+      query: """
+        select * from "public"."LeaderBoard" where "gameSize" = $1 ORDER BY "score" DESC LIMIT 5
+      """
+      configuration: "postgresql_config"
+      
+  )
+  """
+  This query is an example of how to simply paginate your responses.
+  """
+  getPaginatedLeaderBoardList(first: Int!, after: Int!): [LeaderBoard]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."LeaderBoard" limit $1 offset $2
+      """
+      configuration: "postgresql_config"
+    )
+  """
+  In this example, a single query parameter is passed. If the request to the DB will
+  return at most one value you can remove the square brackets from the result.
+  """
+  getLeaderBoardById(id: ID!): [LeaderBoard]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."LeaderBoard" where "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  """
+  In this example, two query parameters are passed. If the request to the DB will
+  return at most one value you can remove the square brackets from the result.
+  """
+  getLeaderBoardByIdAndCreated_at(
+    id: ID!
+    created_at: DateTime!
+  ): [LeaderBoard]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."LeaderBoard" where "id" = $1 and "created_at" = $2
+      """
+      configuration: "postgresql_config"
+    )
+}
+
+type Mutation {
+  """
+  In this mutation example you can see how to do a mutation to insert data in the database.
+  """
+  insertLeaderBoard(
+    created_at: DateTime!
+    playerName: String!
+    gameSize: ID!
+  ): LeaderBoard
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "LeaderBoard"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  """
+  In this mutation example you can see how to do a mutation to delete data from the database.
+  """
+  deleteLeaderBoard(
+    id: ID!
+    created_at: DateTime!
+    playerName: String!
+    gameSize: ID!
+  ): LeaderBoard
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "LeaderBoard"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}
