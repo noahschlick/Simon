@@ -31,7 +31,6 @@ export default function Game() {
   const [selected, setSelected] = useState("")
   const [waiting, setWaiting] = useState(true)
   const [volume, setVolume] = useRecoilState(volumeState)
-
   const [score, setScore] = useRecoilState(scoreState)
  
   const lost = useRef(false)
@@ -39,7 +38,6 @@ export default function Game() {
   const index = useRef(0)
   const size = useRef(0)
   
-
   const audio_1 = new Audio ( sound_1 );
   const audio_2 = new Audio ( sound_2 );
   const audio_3 = new Audio ( sound_3 );
@@ -203,6 +201,9 @@ export default function Game() {
       lost.current = true
       index.current = 0
       size.current = order.length - 1
+
+
+      
       if (colors.length === 4){
         var object = addMoreItems(0, order.length - 1)
         console.log(object)
