@@ -14,7 +14,7 @@ function Header() {
     const [volume, setVolume] = useRecoilState(volumeState)
 
   return (
-    <div className="sticky top-3 z-50 grid
+    <div className="sticky top-3 z-10 grid
     grid-cols-2 bg-white h-10 rounded-lg shadow-md">
         <div>
 
