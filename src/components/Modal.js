@@ -1,15 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useMutation } from '@apollo/client';
+import React, {  useState } from 'react'
 import { useForm } from 'react-hook-form';
-import useSeedState from '../CustomHooks/useSeedState';
+import {  useRecoilState } from 'recoil';
+import { colorsState } from '../Atoms/ColorsAtom';
+import { orderState } from '../Atoms/OrderAtom';
+import { ADD_LEADER,  } from '../graphql/mutations';
+import { GET_LEADER_BOARD_BY_GAME } from '../graphql/queries'
 import Avatar from './Avatar';
+
 
 
 function Modal() {
     const {register, handleSubmit, errors} = useForm()
+    const [ colors, setColors ] = useRecoilState(colorsState)
+    const [ order, setOrder ] = useRecoilState(orderState)
+
+    const [addLeader] = useMutation(ADD_LEADER, {
+        refetchQueries: [GET_LEADER_BOARD_BY_GAME, 'getLeaderBoardListByGame']
+    })
     
-    const onSubmit = handleSubmit(() => {
+    /* When the form is submitted */
+    const onSubmit = handleSubmit(async() => {
         console.log(seed)
-        
+        const {
+            data: {insertLeader: newLeader},
+        } = await addLeader({
+            variables: {
+                playerName: seed,
+                gameSize: colors.length,
+                score: 17
+            }
+        })
     })
 
     const [seed, setSeed] = useState("")
