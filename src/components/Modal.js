@@ -3,7 +3,9 @@ import React, {  useState } from 'react'
 import { useForm } from 'react-hook-form';
 import {  useRecoilState } from 'recoil';
 import { colorsState } from '../Atoms/ColorsAtom';
-import { orderState } from '../Atoms/OrderAtom';
+import { GameState } from '../Atoms/GameAtom';
+import { modalState } from '../Atoms/ModalAtom';
+
 import { ADD_LEADER,  } from '../graphql/mutations';
 import { GET_LEADER_BOARD_BY_GAME } from '../graphql/queries'
 import Avatar from './Avatar';
@@ -13,7 +15,8 @@ import Avatar from './Avatar';
 function Modal() {
     const {register, handleSubmit, errors} = useForm()
     const [ colors, setColors ] = useRecoilState(colorsState)
-    const [ order, setOrder ] = useRecoilState(orderState)
+    const [ modal, setModal ] = useRecoilState(modalState)
+    const [ game, setGameState ] = useRecoilState(GameState)
 
     const [addLeader] = useMutation(ADD_LEADER, {
         refetchQueries: [GET_LEADER_BOARD_BY_GAME, 'getLeaderBoardListByGame']
@@ -21,16 +24,20 @@ function Modal() {
     
     /* When the form is submitted */
     const onSubmit = handleSubmit(async() => {
-        console.log(seed)
+        console.log("Hello There")
+        
+        setGameState({didStart: false, isOver: false, score: 0})
         const {
             data: {insertLeader: newLeader},
         } = await addLeader({
             variables: {
                 playerName: seed,
                 gameSize: colors.length,
-                score: 17
+                score: modal.score
             }
         })
+        setModal(false)
+        
     })
 
     const [seed, setSeed] = useState("")

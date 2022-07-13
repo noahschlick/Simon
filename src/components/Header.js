@@ -14,8 +14,8 @@ function Header() {
     const [volume, setVolume] = useRecoilState(volumeState)
 
   return (
-    <div className="sticky top-3 z-10 grid
-    grid-cols-2 bg-white h-10 rounded-lg shadow-md">
+    <div className="sticky top-3 z-50 grid
+    grid-cols-2 bg-white h-10 rounded-lg shadow-md ">
         <div>
 
         </div>
@@ -36,7 +36,7 @@ function Header() {
                             <span class="mr-1">Game Size</span>
                             <ChevronDownIcon className="w-5 h-5"/>
                         </button>
-                        <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 w-40">
+                        <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 w-40 z-50">
                             <li class="" onClick={() => setColors(gameColors[0])}>
                                 <a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block
                                 whitespace-no-wrap" href="#">
