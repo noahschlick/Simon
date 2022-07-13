@@ -4,34 +4,13 @@ import TimeAgo from 'react-timeago'
 import { useRecoilState } from 'recoil'
 import { colorsState } from '../Atoms/ColorsAtom'
 import { scoreState } from '../Atoms/ScoreBoardAtom'
-import { GET_LEADER_BOARD, GET_LEADER_BOARD_BY_GAME } from '../graphql/queries'
+import { GET_LEADER_BOARD_BY_GAME } from '../graphql/queries'
 import Avatar from './Avatar'
 
-function LeaderBoard() {
+function LeaderBoard({leaders}) {
 
   const [colors, setColors] = useRecoilState(colorsState)
   const [score, setScore] = useRecoilState(scoreState)
-
-
-
-  // Fetch leader board
-  const {data, loading} = useQuery(GET_LEADER_BOARD_BY_GAME, {
-    variables: {
-      gameSize: colors.length
-    }
-  })
-
-  function print(){
-    console.log(data?.getLeaderBoardListByGame)
-  }
-
-  // Initiate the list
-  const leaders = data?.getLeaderBoardListByGame
-
-  /*if (leaders[leaders.length - 1] < score) {
-    // Add to Leader board
-    // Remove last element in the leaders array from the data
-  }*/
 
   return (
     <div  className="flex-1 shadow-sm border-2 border-slate-200 rounded-md ">

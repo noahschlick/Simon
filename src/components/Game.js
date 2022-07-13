@@ -6,9 +6,10 @@ import { gameColors } from '../GameColors'
 import { useRecoilState } from 'recoil';
 import { colorsState } from '../Atoms/ColorsAtom'
 import playImage from '../Images/playImage.png'
-import { orderState } from '../Atoms/OrderAtom';
+//import { orderState } from '../Atoms/OrderAtom';
 import { volumeState } from '../Atoms/VolumeAtom'
 import PriorityQueue from '../PriorityQueue'
+
 
 
 import sound_1 from '../AudioFiles/sound-1.mp3'
@@ -21,20 +22,30 @@ import sound_7 from '../AudioFiles/sound-7.mp3'
 import sound_8 from '../AudioFiles/sound-8.mp3'
 import sound_9 from '../AudioFiles/sound-9.mp3'
 import { scoreState } from '../Atoms/ScoreBoardAtom'
+import { modalState } from '../Atoms/ModalAtom'
+import { GameState } from '../Atoms/GameAtom'
 
 
 
-export default function Game() {
+export default function Game({leaders}) {
   //const [colors, setColors] = useState(["#B22727", "#0097e6", "#44bd32", "#ffaa00"])
   const [colors, setColors] = useRecoilState(colorsState)
-  const [order, setOrder] = useRecoilState(orderState)
+  //const [order, setOrder] = useRecoilState(orderState)
+  const [currOrder, setCurrOrder] = useState([colors[0]])
+
   const [selected, setSelected] = useState("")
-  const [waiting, setWaiting] = useState(true)
   const [volume, setVolume] = useRecoilState(volumeState)
   const [score, setScore] = useRecoilState(scoreState)
+  const [modal, setModal] = useRecoilState(modalState)
+
+
+
+  const [game, setGameState] = useRecoilState(GameState)
+
+  // For refactoring purposes
+  
+  const [startSeq, setSeq] = useState(false)
  
-  const lost = useRef(false)
-  const seq = useRef(false)
   const index = useRef(0)
   const size = useRef(0)
   
@@ -50,104 +61,30 @@ export default function Game() {
 
   useEffect(() => {
     console.log("Update info: ", colors)
-    setWaiting(true)
-    setOrder([colors[0]])
+    setGameState({didStart: false, isOver: false, score: 0})
+    setCurrOrder([colors[0]])
+    //setOrder([colors[0]])
     setSelected("")
   }, [colors])
 
-  /**
-   * Add Random Number
-   * adds a random color to the game
-   */
-  const addRandomColor = () => {
-
-    var n = colors.length - 1
-    
-    // No repeating colors are allowed as of now
-    var rand = Math.floor(Math.random() * (n + 1));
-    while (order.length > 0 && colors[rand] === order[order.length - 1]) {
-        rand = Math.floor(Math.random() * (n + 1));
+  // Activated whenever the component first mounts
+  useEffect(() => {
+    //runSequence(colors)
+    if (game.didStart === true) {
+      runSequence(colors)
     }
+  }, [game.didStart]);
 
-    // Add the color to the current order of the recoil array
-    setOrder(order => [...order, colors[rand]])
-  }
+  // Activates after user have checked all of the buttons
+  useEffect(() => {
+    if (startSeq === true){
+      runSequence(colors)
+    }
+  }, [startSeq])
 
-  /**
-   * runSequence
-   * @param {*} colors 
-   * This function runs all of the colors 
-   * that the player needs to memorize.
-   */
-  const runSequence = () => {
-    addRandomColor()
-    
-    // Run the sequence of colors 
-    lost.current = false
-    setWaiting(false)
-    seq.current = true
-    
-    setTimeout(function() {
-      for (let i = 0; i <= order.length; i++) {
-      
-        setTimeout(function() {
-          if (i === order.length) {
-            
-            setSelected("")
-            seq.current = false
-          } else {
-            if (volume) {
-              switch(order[i]) {
-                case colors[0]:
-                  audio_1.play();
-                  break;
-                case colors[1]:
-                  audio_2.play();
-                  break;
-                case colors[2]:
-                  audio_3.play();
-                  break;
-                case colors[3]:
-                  audio_4.play();
-                  break;
-                case colors[4]:
-                  audio_5.play();
-                  break;
-                case colors[5]:
-                  audio_6.play();
-                  break;
-                case colors[6]:
-                  audio_7.play();
-                  break;
-                case colors[7]:
-                  audio_8.play();
-                  break;
-                case colors[8]:
-                  audio_9.play();
-                  break;
-                default:
-              }
-            } 
-            setSelected(order[i])
-          }
-        }, 900 * i);
-      }
-    }, 1000);
-  }
 
-  /**
-   * Check Color
-   * 
-   * Checks if the color is the correct color.
-   * If the the color is not correct then the game is over and 
-   * waiting will be set to true.
-   */
-  
-  const checkColor = (color) => {
-    console.log("Current Order: ", order)
-    console.log("Current Index: ", index.current)
-    console.log("Current color: ", color)
-
+  // Plays the sound associated owith the button
+  function playSound(color) {
     if (volume) {
       switch(color) {
         case colors[0]:
@@ -180,17 +117,90 @@ export default function Game() {
         default:
       }
     }
-    
+  }
+
+
+  /**
+   * Add Random Number
+   * adds a random color to the game
+   */
+  const addRandomColor = () => {
+
+    var n = colors.length - 1
+
+    // Geneate a random color
+    // No repeating colors are allowed as of now
+    var rand = Math.floor(Math.random() * (n + 1));
+
+    // I changed this oune order to currOrder!!! DRUNK CHANGE
+    while (currOrder.length > 0 && colors[rand] === currOrder[currOrder.length - 1]) {
+        rand = Math.floor(Math.random() * (n + 1));
+    }
+
+    //REFACT
+    setCurrOrder(currOrder => [...currOrder, colors[rand]])
+    setGameState({didStart: true, isOver: false, score: currOrder.length})
+    //REFACT
+
+    // THIS IS THE PROBLEM WHERE THE GD IS 
+    // FIX THE BUG THRY THE GIT RID OF THE ORDER ATOM 
+    // Add the color to the current order of the recoil array
+    //setOrder(order => [...order, colors[rand]])
+
+    console.log(currOrder)
+    //console.log(order)
+  }
+
+  /**
+   * Run Sequence  
+   * 
+   * This function runs all of the colors 
+   * that the player needs to memorize.
+   */
+  const runSequence = () => {
+    addRandomColor() 
+    setTimeout(function() {
+      for (let i = 0; i <= currOrder.length; i++) {
+        setTimeout(function() {
+          if (i === currOrder.length) {
+            // Sequence is over
+            setSeq(false)
+            setSelected("")
+          } else {
+            playSound(currOrder[i])
+            setSelected(currOrder[i])
+          }
+        }, 900 * i);
+      }
+    }, 1000);
+
+  }
+
+ 
+
+  /**
+   * Check Color
+   * 
+   * Checks if the color is the correct color.
+   * If the the color is not correct then the game is over and 
+   * waiting will be set to true.
+   */
+  
+  const checkColor = (color) => {
+    playSound(color)
     setSelected(color)
-    if (color === order[index.current]) {
-      if (index.current === order.length - 2) {
+
+    // If the play selected the correct color
+    if (color === currOrder[index.current]) {
+      // If the sequence is completed
+      if (index.current === currOrder.length - 2) {
         index.current = 0
-        console.log("We Win")
         setTimeout(function() {
           setSelected("")
         }, 800);
         setTimeout(function() {
-          runSequence()
+          // Start the seq
+          setSeq(true)
         }, 1000);
       } else {
         console.log("We still have a chance to win!!")
@@ -198,34 +208,32 @@ export default function Game() {
       }
     } else {
       // game over 
-      lost.current = true
+      setGameState({didStart: true, isOver: true, score: currOrder.length - 1})
+
       index.current = 0
-      size.current = order.length - 1
+      size.current = currOrder.length - 1
 
-
-      
       if (colors.length === 4){
-        var object = addMoreItems(0, order.length - 1)
-        console.log(object)
+        var object = addMoreItems(0, currOrder.length - 1)
         setScore(object)
-
       } else if (colors.length === 6) {
-        var object = addMoreItems(1, order.length - 1)
-        console.log(object)
+        var object = addMoreItems(1, currOrder.length - 1)
         setScore(object)
-
       } else {
-        var object = addMoreItems(2, order.length - 1)
-        console.log(object)
+        var object = addMoreItems(2, currOrder.length - 1)
         setScore(object)
-
       }
-      setWaiting(true)
-      setOrder([colors[0]])
       setSelected("")
- 
-      
 
+      // Activate modal if player gets the high score []
+      console.log("This is the leader score: ", leaders)
+      console.log("This is local score: ", currOrder.length - 1)
+      if (currOrder.length - 1 > leaders[leaders.length - 1].score) {
+        setModal({state: true, score: size.current})
+      } else {
+        //setOrder([colors[0]])
+        setCurrOrder([colors[0]])
+      }
 
     }
    
@@ -246,31 +254,46 @@ export default function Game() {
 
     return object
   }
+
+  function reSet() {
+
+
+    setCurrOrder([colors[0]])
+    setGameState({didStart: false, isOver: false, score: 0})
+  }
+
+  function set() {
+    setCurrOrder([colors[0]])
+    setGameState({didStart: true, isOver: false, score: 0})
+
+  }
   
 
   return (
-    <div className={`flex justify-center mt-10 `}>
+    <div className={`flex justify-center mt-10 `} onClick={console.log('asdfkugbclk.')}>
       
       <div 
         className={`contian transition ease-in-out delay-200 
           border-2 p-10 rounded-lg drop-shadow-md 
-          ${waiting && !lost.current ? 'cursor-pointer hover:bg-blue-100 hover:-translate-y-1' : ''}
-          ${lost.current ? 'border-red-200 hover:-translate-y-1 hover:shadow-lg' : 'border-blue-100'}
+          
+          ${game.isOver ? 'border-red-200 hover:-translate-y-1 hover:shadow-lg' : 'border-blue-100'}
         `}
 
-        onClick={(waiting === true)?(() => {runSequence(colors)}):(() => {}) }
+        //onClick={/*(wait.current === true)?(() => {runSequence(colors)}):(() => {}) */}
       >
-        {waiting ? (
+        {!game.didStart  ? (
           <div className={`transition ease-in-out delay-200 hover:-translate-y-20 hover:opacity-90
-          relative z-50 opacity-0 cursor-pointer`}>
+          relative z-50 opacity-0 cursor-pointer`}
+            onClick={() => (set())}>
             <img className={`absolute object-center top-20`} src={playImage} alt=""/>
           </div>
         ):<></>
         }
-        {lost.current === true ? (
+        {game.isOver === true ? (
           <div className={`transition ease-in-out delay-200 hover:-translate-y-1
           absolute z-50 bg-gray-100 opacity-50 w-full h-full top-0 left-0 cursor-pointer
-          grid grid-cols-1 place-content-center`}>
+          grid grid-cols-1 place-content-center`}
+          onClick={() => reSet()}>
             <div className="mx-auto text-center subpixel-antialiased">
               <h3 className="font-face-gm">Game Over</h3>
               <h3 className="font-face-gm">Rounds: {size.current}</h3>
@@ -288,14 +311,14 @@ export default function Game() {
           `}  
           >
             { colors.map(color => (
-              <Item
-                key={color}
-                color={color}
-                isSelected={selected === color}
-                onClick={() => checkColor(color)/*setSelected(color)*/}
-                waiting = {waiting}
-                seq = {seq}
-              />
+        
+                <Item
+                  key={color}
+                  color={color}
+                  isSelected={selected === color}
+                  onClick={() => checkColor(color)/*setSelected(color)*/}
+                  seq = {startSeq}
+                />
               
             ))}
           </ul>
@@ -305,14 +328,12 @@ export default function Game() {
   );
 }
 
-function Item({ color, isSelected, onClick, waiting, seq }) {
+function Item({ color, isSelected, onClick, seq }) {
   return (
     <div>
-      {seq.current === true ? (
-
-      <li 
-        className={`item drop-shadow-lg cursor-not-allowed  ${waiting ? 'opacity-30' : ''} `}
-        
+       <li 
+        className={`item drop-shadow-lg  ${seq === false ? 'cursor-pointer ' : 'cursor-not-allowed' }`}
+        onClick = {(seq === false) ? (onClick) : undefined}
         style={{background: color}}
       >
         {isSelected && (
@@ -325,26 +346,6 @@ function Item({ color, isSelected, onClick, waiting, seq }) {
           />
         )}
       </li>
-    ) : (
-      <li 
-      className={`item drop-shadow-lg cursor-pointer  ${waiting ? 'opacity-30': ''} `}
-      onClick={onClick} 
-      style={{ background: color}}
-      >
-        {isSelected && (
-          <motion.div
-            layoutId="outline__a"
-            className="outline__a"
-            initial={false}
-            animate={{ borderColor: color }}
-            transition={spring}
-          />
-        )}
-      </li>
-    )}
-   
-    
-    
 
     </div>
   );
