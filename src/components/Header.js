@@ -16,14 +16,17 @@ function Header() {
   return (
     <div className="sticky top-3 z-50 grid
     grid-cols-2 bg-white h-10 rounded-lg shadow-md ">
-        <div>
-
+        <div class="font-face-gm flex-1 font-semibold subpixel-antialiased pt-1 pl-2">
+            <hl class="font-Fredoka text-2xl text-green-400">MemBot</hl>
         </div>
 
         <div className="flex items-center space-x-4 justify-end text-gray-500">
             {/* Drop Down */}
+            
             <div class="flex ">
+                
                 <div class="p-0 flex">
+                    
                     <div 
                         className= "w-5 h-5 my-auto cursor-pointer "
                         onClick={() => {setVolume(!volume)}}

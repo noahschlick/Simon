@@ -21,6 +21,18 @@ import sound_6 from '../AudioFiles/sound-6.mp3'
 import sound_7 from '../AudioFiles/sound-7.mp3'
 import sound_8 from '../AudioFiles/sound-8.mp3'
 import sound_9 from '../AudioFiles/sound-9.mp3'
+
+import note1 from '../AudioFiles/note1.mp3'
+import note2 from '../AudioFiles/note2.mp3'
+import note3 from '../AudioFiles/note3.mp3'
+import note4 from '../AudioFiles/note4.mp3'
+import note5 from '../AudioFiles/note5.mp3'
+import note6 from '../AudioFiles/note6.mp3'
+import note7 from '../AudioFiles/note7.mp3'
+import note8 from '../AudioFiles/note8.mp3'
+import note9 from '../AudioFiles/note9.mp3'
+
+
 import { scoreState } from '../Atoms/ScoreBoardAtom'
 import { modalState } from '../Atoms/ModalAtom'
 import { GameState } from '../Atoms/GameAtom'
@@ -49,15 +61,15 @@ export default function Game({leaders}) {
   const index = useRef(0)
   const size = useRef(0)
   
-  const audio_1 = new Audio ( sound_1 );
-  const audio_2 = new Audio ( sound_2 );
-  const audio_3 = new Audio ( sound_3 );
-  const audio_4 = new Audio ( sound_4 );
-  const audio_5 = new Audio ( sound_5 );
-  const audio_6 = new Audio ( sound_6 );
-  const audio_7 = new Audio ( sound_7 );
-  const audio_8 = new Audio ( sound_8 );
-  const audio_9 = new Audio ( sound_9 );
+  const audio_1 = new Audio ( note1 );
+  const audio_2 = new Audio ( note2 );
+  const audio_3 = new Audio ( note3 );
+  const audio_4 = new Audio ( note4 );
+  const audio_5 = new Audio ( note5 );
+  const audio_6 = new Audio ( note6 );
+  const audio_7 = new Audio ( note7 );
+  const audio_8 = new Audio ( note8 );
+  const audio_9 = new Audio ( note9 );
 
   useEffect(() => {
     console.log("Update info: ", colors)
@@ -170,9 +182,9 @@ export default function Game({leaders}) {
             playSound(currOrder[i])
             setSelected(currOrder[i])
           }
-        }, 900 * i);
+        }, 800 * i);
       }
-    }, 1000);
+    }, 900);
 
   }
 

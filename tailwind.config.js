@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -7,8 +9,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        PressStart2P: ["Press Start 2P", "cursive"]
-      }
+        PressStart2P: ["Press Start 2P", "cursive"],
+        Fredoka: ['Fredoka One', 'cursive'],
+      },
     },
   },
   plugins: [
