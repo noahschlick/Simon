@@ -1,7 +1,9 @@
 import Game from './components/Game';
+import MobileGame from './components/MobileGame'
 import Header from './components/Header';
 import LeaderBoard from './components/LeaderBoard';
 import ScoreBoard from './components/ScoreBoard';
+import GoogleAds from './components/GoogleAds';
 import './App.css'
 import Modal from './components/Modal';
 import { modalState } from './Atoms/ModalAtom';
@@ -31,13 +33,28 @@ function App() {
 
   const leaders = data?.getLeaderBoardListByGame
 
+  /* Ubdate the size of the page */
+  const [isDesktop, setDesktop] = useState(window.innerWidth > 650);
+
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 650);
+  };
+
+  useEffect(() => {
+    
+    window.addEventListener("resize", updateMedia);
+    return () => window.removeEventListener("resize", updateMedia);
+  });
+
 
   return (
     <div className="relative">
+      
       {modal.state === true && (<Modal/>)}
       
       <div className="max-w-3xl mx-auto px-8 ">
       <Header/>
+      
       <div>
         {game.didStart === false && (
           <div className="absolute z-10">
@@ -51,20 +68,33 @@ function App() {
         )}
         
         
-        <Game leaders={leaders} currOrder = {currOrder}/>
+        {isDesktop ? (
+          <Game leaders={leaders} currOrder = {currOrder}/>
+        ) : (
+          <MobileGame leaders={leaders} currOrder = {currOrder}/>
+        )}
+        
 
-        </div>
+      </div>
         
         
      
       
  
-      <div className="flex space-x-4 mt-5">
-        <div className="w-1/2">
-          <ScoreBoard/>
-        </div>
+      <div className=" tablet:flex tablet:space-x-4 mt-5 ">
         
-        <div className="w-1/2 mb-20">
+          <div className="tablet:w-1/2">
+            <ScoreBoard/>
+            <div class=" w-full h-4/6">
+
+              {/*<GoogleAds/>*/}
+            
+            </div>
+          </div>
+   
+        
+        
+        <div className="tablet:w-1/2 mb-20 w-full relative ">
           <LeaderBoard leaders={leaders}/>
         </div>
         

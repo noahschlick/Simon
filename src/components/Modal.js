@@ -24,8 +24,7 @@ function Modal() {
     
     /* When the form is submitted */
     const onSubmit = handleSubmit(async() => {
-        console.log("Hello There")
-        
+
         setGameState({didStart: false, isOver: false, score: 0})
         const {
             data: {insertLeader: newLeader},
