@@ -103,35 +103,35 @@ export default function MobileGame({leaders}) {
     if (volume) {
       switch(color) {
         case colors[0]:
-          //audio_1.play();
+          audio_1.play();
           //play1();
           break;
         case colors[1]:
-          //audio_2.play();
+          audio_2.play();
           //play2();
           break;
         case colors[2]:
-          //audio_3.play();
+          audio_3.play();
           //play4();
           break;
         case colors[3]:
-          //audio_4.play();
+          audio_4.play();
           //play5();
           break;
         case colors[4]:
-          //audio_5.play();
+          audio_5.play();
           break;
         case colors[5]:
-          //audio_6.play();
+          audio_6.play();
           break;
         case colors[6]:
-          //audio_7.play();
+          audio_7.play();
           break;
         case colors[7]:
-          //audio_8.play();
+          audio_8.play();
           break;
         case colors[8]:
-          //audio_9.play();
+          audio_9.play();
           break;
         default:
       }
