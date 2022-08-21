@@ -104,34 +104,34 @@ export default function MobileGame({leaders}) {
       switch(color) {
         case colors[0]:
           //audio_1.play();
-          //play1();
+          play1();
           break;
         case colors[1]:
           //audio_2.play();
-          //play2();
+          play2();
           break;
         case colors[2]:
           //audio_3.play();
-          //play4();
+          play3();
           break;
         case colors[3]:
           //audio_4.play();
-          //play5();
+          play4();
           break;
         case colors[4]:
-          //audio_5.play();
+          play5();
           break;
         case colors[5]:
-          //audio_6.play();
+          play6();
           break;
         case colors[6]:
-          //audio_7.play();
+          play7();
           break;
         case colors[7]:
-          //audio_8.play();
+          play8();
           break;
         case colors[8]:
-          //audio_9.play();
+          play9();
           break;
         default:
       }
