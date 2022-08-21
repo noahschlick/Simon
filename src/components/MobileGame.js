@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from "react"
 import { motion, AnimateSharedLayout } from "framer-motion"
-import "./Game.css"
+import "./MobileGame.css"
 import { gameColors } from '../GameColors'
 import { useRecoilState } from 'recoil';
 import { colorsState } from '../Atoms/ColorsAtom'
@@ -31,7 +31,7 @@ import { GameState } from '../Atoms/GameAtom'
 
 
 
-export default function Game({leaders}) {
+export default function MobileGame({leaders}) {
   //const [colors, setColors] = useState(["#B22727", "#0097e6", "#44bd32", "#ffaa00"])
   const [colors, setColors] = useRecoilState(colorsState)
   //const [order, setOrder] = useRecoilState(orderState)
@@ -104,34 +104,34 @@ export default function Game({leaders}) {
       switch(color) {
         case colors[0]:
           //audio_1.play();
-          play1();
+          //play1();
           break;
         case colors[1]:
           //audio_2.play();
-          play2();
+          //play2();
           break;
         case colors[2]:
           //audio_3.play();
-          play4();
+          //play4();
           break;
         case colors[3]:
           //audio_4.play();
-          play5();
+          //play5();
           break;
         case colors[4]:
-          audio_5.play();
+          //audio_5.play();
           break;
         case colors[5]:
-          audio_6.play();
+          //audio_6.play();
           break;
         case colors[6]:
-          audio_7.play();
+          //audio_7.play();
           break;
         case colors[7]:
-          audio_8.play();
+          //audio_8.play();
           break;
         case colors[8]:
-          audio_9.play();
+          //audio_9.play();
           break;
         default:
       }
@@ -289,7 +289,7 @@ export default function Game({leaders}) {
   
 
   return (
-    <div className={`flex justify-center mt-10 `} >
+    <div className={`flex justify-center mt-10 `} onClick={console.log('asdfkugbclk.')}>
       
       <div 
         className={`contian transition ease-in-out delay-200 
@@ -357,11 +357,11 @@ function Item({ color, isSelected, onClick, seq }) {
       >
         {isSelected && (
           <motion.div
-            layoutId="outline__a"
+            /*layoutId="outline__a"*/
             className="outline__a"
             initial={false}
             animate={{ borderColor: color }}
-            transition={spring}
+            /*transition={spring}*/
           />
         )}
       </li>

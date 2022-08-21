@@ -25,20 +25,20 @@ function ScoreBoard() {
         scores.current = scoreBoard[0]
         var arr = Array.from(scores.current)
         sort_i(arr)
-        scores.current = arr.slice(0, 10)
+        scores.current = arr.slice(0, 4)
 
         break;
       case 6:
         scores.current = scoreBoard[1]
         var arr = Array.from(scores.current)
         sort_i(arr)
-        scores.current = arr.slice(0, 10)
+        scores.current = arr.slice(0, 4)
         break;
       case 9:
         scores.current = scoreBoard[2]
         var arr = Array.from(scores.current)
         sort_i(arr)
-        scores.current = arr.slice(0, 10)
+        scores.current = arr.slice(0, 4)
         break;
       default:
     }
@@ -62,7 +62,7 @@ function ScoreBoard() {
 
 
   return (
-    <div className="flex-1 shadow-sm border-2 border-slate-200 rounded-md mb-20">
+    <div className="flex-1 shadow-sm border-2 border-slate-200 rounded-md mb-5">
       <div className ="flex flex-col ">
         <div className="flex p-5 font-semibold subpixel-antialiased border-b-2">
           <h3 className="font-face-gm">Round:</h3>

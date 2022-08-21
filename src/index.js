@@ -13,6 +13,9 @@ root.render(
   <ApolloProvider client={client}>
     <React.StrictMode>
       <RecoilRoot>
+        <head>
+          hello
+        </head>
         <App />
       </RecoilRoot>
     </React.StrictMode>

@@ -17,7 +17,7 @@ function Header() {
     <div className="sticky top-3 z-50 grid
     grid-cols-2 bg-white h-10 rounded-lg shadow-md ">
         <div class="font-face-gm flex-1 font-semibold subpixel-antialiased pt-1 pl-2">
-            <hl class="font-Fredoka text-2xl text-green-400">MemBot</hl>
+            <h1 class="font-Fredoka text-2xl text-green-400">MemBot</h1>
         </div>
 
         <div className="flex items-center space-x-4 justify-end text-gray-500">
@@ -36,7 +36,7 @@ function Header() {
                     </div>
                     <div class="dropdown inline-block ">
                         <button class=" text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-                            <span class="mr-1">Game Size</span>
+                            <span class="mr-1">Size</span>
                             <ChevronDownIcon className="w-5 h-5"/>
                         </button>
                         <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 w-40 z-50">
@@ -49,7 +49,7 @@ function Header() {
                                 <a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block 
                                 whitespace-no-wrap" href="#">Six</a>
                             </li>
-                            <li class="" onClick={() => setColors(gameColors[2])}>
+                            <li class="invisible tablet:visible" onClick={() => setColors(gameColors[2])}>
                                 <a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block 
                                 whitespace-no-wrap" href="#">Nine</a>
                             </li>
